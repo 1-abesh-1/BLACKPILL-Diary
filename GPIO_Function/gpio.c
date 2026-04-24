@@ -67,7 +67,33 @@ void pinInput(char port,char no){
 
 }
 
+void pinAf(char port,char no){
+	GPIO_TypeDef *target_port=target(port);
 
+
+  target_port ->MODER &= ~(0b11<<no*2);
+   target_port ->MODER |= (0b10<<no*2);
+   target_port ->OTYPER &= ~(0b1<<no);
+
+   target_port->OSPEEDR |= (0b11 << (2* no));
+   
+
+}
+
+	void pinADC(char port, char no) {
+    GPIO_TypeDef *target_port = target(port);
+
+    // 1. Set Analog mode (11)
+    target_port->MODER &= ~(0b11 << (no * 2));
+    target_port->MODER |=  (0b11 << (no * 2));
+
+    // 2. Disable pull-up / pull-down
+    target_port->PUPDR &= ~(0b11 << (no * 2));
+
+    // 3. (Optional but clean) Reset output settings
+    target_port->OTYPER &= ~(1 << no);
+    target_port->OSPEEDR &= ~(0b11 << (no * 2));
+}
 
 
 int status(char port, char no){
