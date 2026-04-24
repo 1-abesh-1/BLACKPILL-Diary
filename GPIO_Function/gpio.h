@@ -19,5 +19,7 @@
 void gpio_init(char port);
 void pinOutput(char port,char no);
 void pinInput(char port,char no);
+void pinAf(char port,char no);
 int status(char port, char no);
 void pin(char port,char no, char mode);
+void pinADC(char port, char no);
